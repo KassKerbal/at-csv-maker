@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as XLSX from "xlsx";
 
 function ExcelUploader() {
@@ -12,9 +12,8 @@ function ExcelUploader() {
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: "array" });
-      const firstSheet = workbook.Sheets[workbook.SheetNames[0]]; // primera hoja
-      const csv = XLSX.utils.sheet_to_csv(firstSheet);
-
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]]; 
+      const csv = XLSX.utils.sheet_to_csv(firstSheet, {strip: true, skipHidden: true});
       setCsvData(csv);
 
       const newBlob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
